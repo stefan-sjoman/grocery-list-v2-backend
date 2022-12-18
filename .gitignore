@@ -1,6 +1,9 @@
 # Secure files
 private_key.json
 
+# Extra
+.DS_Store
+
 # Logs
 logs
 *.log
