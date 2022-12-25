@@ -34,32 +34,28 @@ app.get("/items", async (req, res) => {
     snapshot.forEach((docRef) => {
       myList = docRef.data().list;
     });
-    console.log(myList);
     res.json(myList);
   } catch (error) {
-    console.log(error);
+    res.status(500).send("Error in database");
   }
 });
 
 app.post("/create", async (req, res) => {
   try {
-    const item = req.body.item;
-    const respons = await db.collection("buyItems").doc("myList").set(item);
-    res.send(respons);
+    const data = { list: req.body.list };
+    await db.collection("buyItems").doc("myList").set(data);
+    res.status(200).send("The list was updated");
   } catch (error) {
-    res.send(error);
+    res.status(500).send("Error in database");
   }
 });
 
-app.delete("/delete/:item", async (req, res) => {
+app.delete("/delete", async (req, res) => {
   try {
-    const response = await db
-      .collection("buyItems")
-      .doc(req.params.item)
-      .delete();
-    res.send(response);
+    await db.collection("buyItems").doc("myList").delete();
+    res.status(200).send("The list was deleted");
   } catch (error) {
-    res.send(error);
+    res.status(500).send("Error in database");
   }
 });
 
